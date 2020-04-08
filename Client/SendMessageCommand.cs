@@ -8,7 +8,7 @@ namespace Client
     public class SendMessageCommand : ICommand
     {
 
-        private readonly StorageHelper _storageHelper = new StorageHelper();
+        private readonly ServiceBusQueueHelper _storageHelper = new ServiceBusQueueHelper();
 
         public event EventHandler CanExecuteChanged;
 

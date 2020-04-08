@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -17,8 +18,8 @@ namespace Monitor
     {
         public ViewModel()
         {
-            storageHelper = new StorageHelper();
-            storageHelper.MessagesArrived += StorageHelper_MessageArrived;
+            storageHelper = new ServiceBusQueueHelper();
+            storageHelper.MessagesCount += StorageHelper_MessageCount;
             storageHelper.IsRunning += StorageHelper_IsRunning;
         }
 
@@ -27,24 +28,33 @@ namespace Monitor
             this.IsRunning = IsRunning;
         }
 
-        private void StorageHelper_MessageArrived(DemoMessage[] messages)
+        private void StorageHelper_MessageCount(long messageCount, long deadletterMessageCount)
         {
             Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 Messages.Clear();
-                foreach (var m in messages)
+                DeadLetterMessages.Clear();
+
+                for (int i = 0; i < messageCount; i++)
                 {
-                    Messages.Add(m);
+                    Messages.Add(new DemoMessage());
+                }
+
+                for (int j = 0; j < deadletterMessageCount; j++)
+                {
+                    DeadLetterMessages.Add(new DemoMessage());
                 }
             });
-            
-            
         }
+
 
         public ObservableCollection<DemoMessage> Messages { get; }
             = new ObservableCollection<DemoMessage>();
 
-        private readonly StorageHelper storageHelper;
+        public ObservableCollection<DemoMessage> DeadLetterMessages { get; }
+            = new ObservableCollection<DemoMessage>();
+
+        private readonly ServiceBusQueueHelper storageHelper;
 
         public bool IsRunning
         {

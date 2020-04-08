@@ -1,7 +1,5 @@
 ﻿using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
-using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Queue;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,30 +7,30 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using SharedModels;
+using Microsoft.Azure.ServiceBus;
 
 namespace Client
 {
-    public class StorageHelper
+    public class ServiceBusQueueHelper
     {
-        public StorageHelper()
+        public ServiceBusQueueHelper()
         {
             var secretClient = new SecretClient(
                 new System.Uri(ConfigurationManager.AppSettings["KeyVaultName"]),
                 new DefaultAzureCredential()
                 );
 
-            var storageAccount = CloudStorageAccount.Parse(secretClient.GetSecret("StorageConnectionString").Value.Value);
-            var queueClient = storageAccount.CreateCloudQueueClient();
-            _queue = queueClient.GetQueueReference(secretClient.GetSecret("QueueName").Value.Value);
+            _queue = new QueueClient(secretClient.GetSecret("SenderServiceBusConnectionString").Value.Value,
+                secretClient.GetSecret("QueueName").Value.Value);
         }
 
-        private readonly CloudQueue _queue;
+        private readonly IQueueClient _queue;
 
         public void SendMessage(DemoMessage message)
         {
             var serializedMesage = JsonSerializer.Serialize(message);
-            var cloudQueueMessage = new CloudQueueMessage(serializedMesage);
-            _queue.AddMessage(cloudQueueMessage);
+            var cloudQueueMessage = new Message(Encoding.UTF8.GetBytes(serializedMesage));
+            _queue.SendAsync(cloudQueueMessage);
         }
     }
 }

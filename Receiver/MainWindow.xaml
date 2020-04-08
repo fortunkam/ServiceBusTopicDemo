@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Receiver"
         mc:Ignorable="d"
-        Title="MainWindow" Height="340" Width="400">
+        Title="Receiver" Height="340" Width="400">
     <Window.Resources>
         <local:ViewModel x:Key="viewModel"></local:ViewModel>
     </Window.Resources>
@@ -18,10 +18,10 @@
         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10">
             <TextBlock FontSize="24" 
                        FontWeight="Bold" TextAlignment="Center">
-                Storage Queue Receiver
+                Service Bus Queue Receiver
             </TextBlock>
             <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="16">
-                Messages are retrieved from the Storage Queue
+                Messages are retrieved from the Service Bus Queue
             </TextBlock>
         </StackPanel>
         <Button Content="Get a Message" FontSize="16" 

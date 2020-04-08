@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Monitor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="400">
+        Title="Monitor" Height="450" Width="400">
     <Window.Resources>
         <local:ViewModel x:Key="viewModel"></local:ViewModel>
         <local:BoolInvertValueConverter x:Key="boolInvert"></local:BoolInvertValueConverter>
@@ -15,11 +15,12 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10">
             <TextBlock FontSize="24" 
                        FontWeight="Bold" TextAlignment="Center">
-                Storage Queue Monitor
+                Service Bus Queue Monitor
             </TextBlock>
             <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="16">
                 Peek at messages currently on the queue
@@ -53,31 +54,61 @@
                 </Button.Background>
             </Button>
         </Grid>
-        <ListView ItemsSource="{Binding Messages}" Grid.Row="2">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Width="380" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border CornerRadius="3" BorderBrush="Black" BorderThickness="2" Width="100" Height="80">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                <GradientStop Offset="0" Color="LightYellow" />
-                                <GradientStop Offset="0.9" Color="White" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Line Stroke="Black" StrokeThickness="2" X1="0" Y1="0" X2="49" Y2="49"></Line>
-                            <Line Stroke="Black" StrokeThickness="2" X1="96" Y1="0" X2="49" Y2="49"></Line>
-                            <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="76" X2="40" Y2="41"></Line>
-                            <Line Stroke="Black" StrokeThickness="1" X1="96" Y1="76" X2="58" Y2="41"></Line>
-                        </Canvas>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        
+        <StackPanel Orientation="Vertical" Grid.Row="2">
+            <TextBlock Background="Black" Foreground="White" FontSize="14">Demo Queue</TextBlock>
+            <ListView ItemsSource="{Binding Messages}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="380" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="3" BorderBrush="Black" BorderThickness="2" Width="100" Height="80">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="LightYellow" />
+                                    <GradientStop Offset="0.9" Color="White" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Line Stroke="Black" StrokeThickness="2" X1="0" Y1="0" X2="49" Y2="49"></Line>
+                                <Line Stroke="Black" StrokeThickness="2" X1="96" Y1="0" X2="49" Y2="49"></Line>
+                                <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="76" X2="40" Y2="41"></Line>
+                                <Line Stroke="Black" StrokeThickness="1" X1="96" Y1="76" X2="58" Y2="41"></Line>
+                            </Canvas>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="3">
+            <TextBlock Background="Black" Foreground="White" FontSize="14">Deadletter Queue</TextBlock>
+            <ListView ItemsSource="{Binding DeadLetterMessages}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Width="380" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="3" BorderBrush="Black" BorderThickness="2" Width="100" Height="80">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Offset="0" Color="LightPink" />
+                                    <GradientStop Offset="0.9" Color="White" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Line Stroke="Black" StrokeThickness="2" X1="0" Y1="0" X2="49" Y2="49"></Line>
+                                <Line Stroke="Black" StrokeThickness="2" X1="96" Y1="0" X2="49" Y2="49"></Line>
+                                <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="76" X2="40" Y2="41"></Line>
+                                <Line Stroke="Black" StrokeThickness="1" X1="96" Y1="76" X2="58" Y2="41"></Line>
+                            </Canvas>
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Window>

@@ -2,12 +2,12 @@ variable location {
     default="centralus"
 }
 variable prefix {
-    default="storagedemo"
+    default="servicebusdemo"
 }
 
-resource "random_id" "storageaccountname" {
+resource "random_id" "servicebusname" {
   keepers = {
-    resource_group = azurerm_resource_group.storagequeue.name
+    resource_group = azurerm_resource_group.servicebus.name
   }
   byte_length = 8
 }

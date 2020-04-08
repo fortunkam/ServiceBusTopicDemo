@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="340" Width="400">
+        Title="Sender" Height="340" Width="400">
     <Window.Resources>
         <local:ViewModel Name="Matt" Message="Hello World" x:Key="viewModel"></local:ViewModel>
     </Window.Resources>
@@ -18,10 +18,10 @@
         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10">
             <TextBlock FontSize="24" 
                        FontWeight="Bold" TextAlignment="Center">
-                Storage Queue Sender
+                Service Bus Queue Sender
             </TextBlock>
             <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="16">
-                Messages are created here and submitted asynchronously to the Storage Queue
+                Messages are created here and submitted asynchronously to the Service Bus Queue
             </TextBlock> 
         </StackPanel>
         <Grid Grid.Row="1" Margin="10,20,10,20" >

@@ -12,10 +12,10 @@ namespace Receiver
     {
         public ViewModel()
         {
-            storageHelper = new StorageHelper();
+            storageHelper = new ServiceBusQueueHelper();
         }
 
-        private readonly StorageHelper storageHelper;
+        private readonly ServiceBusQueueHelper storageHelper;
 
         private ICommand getCommand;
         private string name;
@@ -31,9 +31,18 @@ namespace Receiver
                 return getCommand ?? (getCommand = new RelayCommand(x =>
                 {
                     var message = storageHelper.GetMessage();
-                    Name = message.Name;
-                    Message = message.Message;
-                    Time = message.Time.ToString("HH:mm:ss.zzzz");
+                    if (message != null)
+                    {
+                        Name = message.Name;
+                        Message = message.Message;
+                        Time = message.Time.ToString("HH:mm:ss.ffff");
+                    }
+                    else
+                    {
+                        Name = "";
+                        Message = "";
+                        Time = "";
+                    }
                 }));
             }
         }
