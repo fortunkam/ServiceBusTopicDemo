@@ -24,5 +24,11 @@ namespace Receiver
         {
             InitializeComponent();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var vm = this.Resources["viewModel"] as ViewModel;
+            vm.CleanUp.Execute(null);
+        }
     }
 }

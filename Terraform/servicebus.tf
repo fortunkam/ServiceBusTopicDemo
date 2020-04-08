@@ -5,13 +5,12 @@ resource "azurerm_servicebus_namespace" "servicebus" {
   sku                 = "Standard"
 }
 
-resource "azurerm_servicebus_queue" "servicebus" {
+resource "azurerm_servicebus_topic" "demo" {
   name                = local.queueName
   resource_group_name = azurerm_resource_group.servicebus.name
   namespace_name      = azurerm_servicebus_namespace.servicebus.name
 
   enable_partitioning = true
-  dead_lettering_on_message_expiration = true
   default_message_ttl = "PT30S"
 }
 
@@ -20,9 +19,9 @@ resource "azurerm_servicebus_namespace_authorization_rule" "sender" {
   namespace_name      = azurerm_servicebus_namespace.servicebus.name
   resource_group_name = azurerm_resource_group.servicebus.name
 
-  listen = false
+  listen = true
   send   = true
-  manage = false
+  manage = true
 }
 
 resource "azurerm_servicebus_namespace_authorization_rule" "receiver" {
@@ -31,6 +30,6 @@ resource "azurerm_servicebus_namespace_authorization_rule" "receiver" {
   resource_group_name = azurerm_resource_group.servicebus.name
 
   listen = true
-  send   = false
-  manage = false
+  send   = true
+  manage = true
 }

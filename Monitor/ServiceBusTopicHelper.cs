@@ -16,9 +16,9 @@ using Microsoft.Azure.ServiceBus.Management;
 
 namespace Monitor
 {
-    public class ServiceBusQueueHelper
+    public class ServiceBusTopicHelper
     {
-        public ServiceBusQueueHelper()
+        public ServiceBusTopicHelper()
         {
             var secretClient = new SecretClient(
                 new System.Uri(ConfigurationManager.AppSettings["KeyVaultName"]),
@@ -50,7 +50,7 @@ namespace Monitor
             }
         }
 
-        public delegate void MessageCountHandler(long messageCount, long deadletterMessageCount);
+        public delegate void MessageCountHandler(long messageCount, int subscriptionCount);
         public event MessageCountHandler MessagesCount;
 
         public delegate void IsRunningHandler(bool IsRunning);
@@ -65,10 +65,10 @@ namespace Monitor
                     return;
                 }
 
-                var info = managementClient.GetQueueRuntimeInfoAsync(queueName).Result;
+                var info = managementClient.GetTopicRuntimeInfoAsync(queueName).Result;
 
                 MessagesCount?.Invoke(info.MessageCountDetails.ActiveMessageCount, 
-                    info.MessageCountDetails.DeadLetterMessageCount);
+                    info.SubscriptionCount);
 
                 Thread.Sleep(1000);
             }

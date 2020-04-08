@@ -18,10 +18,10 @@
         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10">
             <TextBlock FontSize="24" 
                        FontWeight="Bold" TextAlignment="Center">
-                Service Bus Queue Sender
+                Service Bus Topic Sender
             </TextBlock>
             <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="16">
-                Messages are created here and submitted asynchronously to the Service Bus Queue
+                Messages are created here and submitted asynchronously to the Service Bus Topic
             </TextBlock> 
         </StackPanel>
         <Grid Grid.Row="1" Margin="10,20,10,20" >

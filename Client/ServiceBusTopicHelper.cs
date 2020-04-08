@@ -11,26 +11,27 @@ using Microsoft.Azure.ServiceBus;
 
 namespace Client
 {
-    public class ServiceBusQueueHelper
+    public class ServiceBusTopicHelper
     {
-        public ServiceBusQueueHelper()
+        public ServiceBusTopicHelper()
         {
             var secretClient = new SecretClient(
                 new System.Uri(ConfigurationManager.AppSettings["KeyVaultName"]),
                 new DefaultAzureCredential()
                 );
 
-            _queue = new QueueClient(secretClient.GetSecret("SenderServiceBusConnectionString").Value.Value,
+            topic = new TopicClient(secretClient.GetSecret("SenderServiceBusConnectionString").Value.Value,
                 secretClient.GetSecret("QueueName").Value.Value);
         }
 
-        private readonly IQueueClient _queue;
+        private readonly ITopicClient topic;
 
         public void SendMessage(DemoMessage message)
         {
             var serializedMesage = JsonSerializer.Serialize(message);
             var cloudQueueMessage = new Message(Encoding.UTF8.GetBytes(serializedMesage));
-            _queue.SendAsync(cloudQueueMessage);
+            cloudQueueMessage.UserProperties.Add("MSName", message.Name);
+            topic.SendAsync(cloudQueueMessage);
         }
     }
 }

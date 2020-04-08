@@ -20,10 +20,10 @@
         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="10">
             <TextBlock FontSize="24" 
                        FontWeight="Bold" TextAlignment="Center">
-                Service Bus Queue Monitor
+                Service Bus Topic Monitor
             </TextBlock>
             <TextBlock TextAlignment="Center" TextWrapping="Wrap" FontSize="16">
-                Peek at messages currently on the queue
+                Peek at messages currently on the subscription
             </TextBlock>
         </StackPanel>
         <Grid Grid.Row="1">
@@ -55,7 +55,7 @@
             </Button>
         </Grid>
         <StackPanel Orientation="Vertical" Grid.Row="2">
-            <TextBlock Background="Black" Foreground="White" FontSize="14">Demo Queue</TextBlock>
+            <TextBlock Background="Black" Foreground="White" FontSize="14">Demo Topic</TextBlock>
             <ListView ItemsSource="{Binding Messages}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -82,33 +82,10 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="3">
-            <TextBlock Background="Black" Foreground="White" FontSize="14">Deadletter Queue</TextBlock>
-            <ListView ItemsSource="{Binding DeadLetterMessages}">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Width="380" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Border CornerRadius="3" BorderBrush="Black" BorderThickness="2" Width="100" Height="80">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                                    <GradientStop Offset="0" Color="LightPink" />
-                                    <GradientStop Offset="0.9" Color="White" />
-                                </LinearGradientBrush>
-                            </Border.Background>
-                            <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Line Stroke="Black" StrokeThickness="2" X1="0" Y1="0" X2="49" Y2="49"></Line>
-                                <Line Stroke="Black" StrokeThickness="2" X1="96" Y1="0" X2="49" Y2="49"></Line>
-                                <Line Stroke="Black" StrokeThickness="1" X1="0" Y1="76" X2="40" Y2="41"></Line>
-                                <Line Stroke="Black" StrokeThickness="1" X1="96" Y1="76" X2="58" Y2="41"></Line>
-                            </Canvas>
-                        </Border>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <StackPanel Orientation="Horizontal" Grid.Row="3">
+            <TextBlock Margin="0,0,5,0" FontSize="14">There are currently</TextBlock>
+            <TextBlock Margin="0,0,5,0"  FontSize="14" Text="{Binding SubscriptionCount}" FontWeight="Bold" />
+            <TextBlock  FontSize="14"> subscriptions</TextBlock>
         </StackPanel>
     </Grid>
 </Window>

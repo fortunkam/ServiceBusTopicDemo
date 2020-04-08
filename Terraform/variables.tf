@@ -2,7 +2,7 @@ variable location {
     default="centralus"
 }
 variable prefix {
-    default="servicebusdemo"
+    default="servicebustopicdemo"
 }
 
 resource "random_id" "servicebusname" {

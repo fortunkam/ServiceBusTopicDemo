@@ -18,7 +18,7 @@ namespace Monitor
     {
         public ViewModel()
         {
-            storageHelper = new ServiceBusQueueHelper();
+            storageHelper = new ServiceBusTopicHelper();
             storageHelper.MessagesCount += StorageHelper_MessageCount;
             storageHelper.IsRunning += StorageHelper_IsRunning;
         }
@@ -28,22 +28,18 @@ namespace Monitor
             this.IsRunning = IsRunning;
         }
 
-        private void StorageHelper_MessageCount(long messageCount, long deadletterMessageCount)
+        private void StorageHelper_MessageCount(long messageCount, int subCount)
         {
             Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 Messages.Clear();
-                DeadLetterMessages.Clear();
 
                 for (int i = 0; i < messageCount; i++)
                 {
                     Messages.Add(new DemoMessage());
                 }
+                SubscriptionCount = subCount;
 
-                for (int j = 0; j < deadletterMessageCount; j++)
-                {
-                    DeadLetterMessages.Add(new DemoMessage());
-                }
             });
         }
 
@@ -51,10 +47,21 @@ namespace Monitor
         public ObservableCollection<DemoMessage> Messages { get; }
             = new ObservableCollection<DemoMessage>();
 
-        public ObservableCollection<DemoMessage> DeadLetterMessages { get; }
-            = new ObservableCollection<DemoMessage>();
+        private int subscriptionCount;
 
-        private readonly ServiceBusQueueHelper storageHelper;
+        public int SubscriptionCount
+        {
+            get { return subscriptionCount; }
+            set
+            {
+                subscriptionCount = value;
+                NotifyPropertyChanged();
+            }
+        }
+
+
+
+        private readonly ServiceBusTopicHelper storageHelper;
 
         public bool IsRunning
         {
@@ -80,6 +87,7 @@ namespace Monitor
 
         private ICommand stopCommand;
         private bool isRunning;
+
 
         public ICommand Stop
         {
